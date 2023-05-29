@@ -16,7 +16,7 @@ SalesforceInteractions.init({    // Initializes the Interaction Studio Web SDK
                 //isMatch: () =>  /^\/$/.test(window.location.pathname),
                 isMatch: () =>  SalesforceInteractions.cashDom("meta[property='og:url']").first().attr("content")=="https://www.perficient.com/",  
                 interaction: {
-                    name: "Homepage",
+                    name: "Homepage",               // This value will be reflected on the event Stream
                 },    
                 contentZones: [
                     { name: "home_hero", selector: "div.component-wrapper" },
@@ -37,12 +37,13 @@ SalesforceInteractions.init({    // Initializes the Interaction Studio Web SDK
                     SalesforceInteractions.listener("submit", ".contact-form", (e) => {
                             console.log("entramos al listener");
                             console.log("Entro al form");
+                            
                             SalesforceInteractions.sendEvent({
                                 interaction: {
                                     name: 'Email Capture'
                                 },
                                 user: {
-                                    identities: { 
+                                    identities: {               // Takes the information from the elements of the page to send to MCP
                                         emailAddress: document.getElementById("fxb_707ece81-9a56-434c-9b8a-cfd406a472f7_Fields_fcc3ab01-3032-42a6-b747-9b73b735090d__Value").value,
                                         firstName: document.getElementById("fxb_707ece81-9a56-434c-9b8a-cfd406a472f7_Fields_3992d3d8-6182-4b16-8be5-a9a7561ccdbe__Value").value,
                                         lastName: document.getElementById("fxb_707ece81-9a56-434c-9b8a-cfd406a472f7_Fields_06c6dc06-f150-409a-bc0f-94240b2e7368__Value").value,
@@ -61,6 +62,7 @@ SalesforceInteractions.init({    // Initializes the Interaction Studio Web SDK
                     return SalesforceInteractions.cashDom("meta[property='og:site_name']").first().attr("content")=="Perficient Blogs" && SalesforceInteractions.cashDom("meta[property='og:type']").first().attr("content")=="article";
                 },
                 interaction: {
+                    //Catalog Object Action 
                     name: SalesforceInteractions.CatalogObjectInteractionName.ViewCatalogObject,
                     catalogObject: {
                         type: "Blog",
